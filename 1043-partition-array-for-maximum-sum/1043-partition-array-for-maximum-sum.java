@@ -1,20 +1,17 @@
 class Solution {
     public int maxSumAfterPartitioning(int[] arr, int k) {
-        int N = arr.length;
-        int K = k + 1;
+        int n = arr.length;
+        int[] dp = new int[n + 1];
 
-        int[] dp = new int[k + 1];
-        Arrays.fill(dp, 0);
+        for (int i = 1; i <= n; i++) {
+            int maxInPartition = 0;
 
-        for (int start = N - 1; start >= 0; start--) {
-            int currMax = 0;
-            int end = Math.min(N, start + k);
-
-            for (int i = start; i < end; i++) {
-                currMax = Math.max(currMax, arr[i]);
-                dp[start % K] = Math.max(dp[start % K], dp[(i + 1) % K] + currMax * (i - start + 1));
+            for (int j = 1; j <= k && i - j >= 0; j++) {
+                maxInPartition = Math.max(maxInPartition, arr[i - j]);
+                dp[i] = Math.max(dp[i], dp[i - j] + maxInPartition * j);
             }
         }
-        return dp[0];
+
+        return dp[n];
     }
 }
