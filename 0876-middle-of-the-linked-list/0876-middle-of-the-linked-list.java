@@ -15,17 +15,17 @@ class Solution {
 
         ListNode slow = head;
         ListNode fast = head;
-        ListNode prev = null; // To keep track of the second middle node
+        ListNode prev = null; 
         while (fast != null && fast.next != null) {
-            prev = slow; // Update second middle node on each iteration
+            prev = slow; 
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        if (fast != null) { // If the length of the list is odd
-            return slow; // Return the second middle node
-        } else { // If the length of the list is even
-            return prev.next; // Return the first middle node
+        if (fast != null) { 
+            return slow; 
+        } else {
+            return prev.next; 
         }
     }
 }
