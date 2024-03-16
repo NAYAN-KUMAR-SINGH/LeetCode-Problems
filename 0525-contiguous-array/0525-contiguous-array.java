@@ -7,7 +7,7 @@ class Solution {
             sum += nums[i] == 1 ? 1 : -1;
 
             if (sum == nums.length) {
-                maxLen = i + 1; // Entire array has equal number of 0s and 1s
+                maxLen = i + 1; 
             } else {
                 if (sumIndex[sum] != 0) {
                     maxLen = Math.max(maxLen, i - sumIndex[sum] + 1);
