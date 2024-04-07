@@ -1,43 +1,60 @@
 class Solution {
-
-    class chara {
-        char num;
-        int pos;
-
-        chara(char num, int pos) {
-            this.num = num;
-            this.pos = pos;
-        }
-    }
-
     public boolean checkValidString(String s) {
-        Stack<chara> st = new Stack<>();
-        Stack<chara> str = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '*') {
-                str.push(new chara('*', i));
-            } else if (c == '(') {
-                st.push(new chara('(', i));
-            } else if (c == ')') {
-                if (st.size() > 0 && st.peek().num == '(') {
-                    st.pop();
-                } else if (str.size() > 0) {
-                    str.pop();
-                } else {
+        Stack<Integer> open = new Stack<>();
+        Stack<Integer> star = new Stack<>();
+
+        for (int i=0; i<s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            // Check if char = '(', push its index into stack open
+            if (ch == '(')
+            {
+                open.push(i);
+            } else 
+            // Check if char = '*', push its index into stack star
+            if (ch == '*')
+            {
+                star.push(i);
+            } else 
+            if (ch == ')')
+            {
+                // Check if open stack is not empty, pop  from open
+                if (!open.isEmpty())
+                {
+                    open.pop();
+                } else 
+                // If open is empty, Check if star is not empty, pop from star
+                if (!star.isEmpty())
+                {
+                    star.pop();
+                } else 
+                // If both are empty, return false 
+                {
                     return false;
                 }
             }
         }
-        if (st.size() > str.size()) {
-            return false;
-        }
-        while (!st.empty()) {
-            if (str.empty() || st.peek().pos > str.peek().pos) {
+ 
+        // Check for any leftovers 
+        // Check if any element is still present in open 
+        while (!open.isEmpty())
+        {
+            // If star is empty, s is invalid, return false 
+            if (star.isEmpty())
+            {
+                return false;
+            } else 
+            // Check if top index in open < top index in star 
+            if (open.peek() < star.peek())
+            {
+                // pop from both open and star 
+                open.pop();  
+                star.pop();
+            } else 
+            // If top index in open > top index in star, s is invalid
+            {
                 return false;
             }
-            st.pop();
-            str.pop();
         }
         return true;
     }
