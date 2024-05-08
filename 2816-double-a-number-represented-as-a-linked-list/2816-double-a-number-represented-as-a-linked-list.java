@@ -9,23 +9,45 @@
  * }
  */
 class Solution {
-    public ListNode doubleIt(ListNode head) {
-        Pair<Integer, ListNode> result = func(head);
-        if (result.getKey() != 0) {
-            ListNode newHead = new ListNode(result.getKey());
-            newHead.next = result.getValue();
-            return newHead;
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode p = l1, q = l2, current = dummyHead;
+        int carry = 0;
+        
+        while (p != null || q != null) {
+            int x = (p != null) ? p.val : 0;
+            int y = (q != null) ? q.val : 0;
+            int sum = carry + x + y;
+            carry = sum / 10;
+            current.next = new ListNode(sum % 10);
+            current = current.next;
+            if (p != null) p = p.next;
+            if (q != null) q = q.next;
         }
-        return result.getValue();
+        
+        if (carry > 0) {
+            current.next = new ListNode(carry);
+        }
+        
+        return dummyHead.next;
     }
+     public ListNode reverse(ListNode head) {
+        ListNode curr = head;
+        ListNode prev = null;
+        ListNode next = null;
 
-    private Pair<Integer, ListNode> func(ListNode head) {
-        int a = head.val * 2;
-        if (head.next != null) {
-            Pair<Integer, ListNode> nextResult = func(head.next);
-            a += nextResult.getKey();
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
-        head.val = a % 10;
-        return new Pair<>(a / 10, head);
+
+        return prev;
+    }
+    public ListNode doubleIt(ListNode head) {
+        head = reverse(head);
+        ListNode ans = addTwoNumbers(head ,head );
+        return reverse(ans);
     }
 }
