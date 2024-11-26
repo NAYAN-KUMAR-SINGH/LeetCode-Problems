@@ -5,8 +5,7 @@ class Solution {
         int n = nums.length;
        for (int i = 0; i < nums.length; i++) {
         if (mp.containsKey(nums[i])) {
-            int val = mp.get(nums[i]);
-            mp.put(nums[i], val + 1);
+            mp.put(nums[i], mp.getOrDefault(nums[i], 0) + 1);
         } else {
             mp.put(nums[i], 1);
         }
